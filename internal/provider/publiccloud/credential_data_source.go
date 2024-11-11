@@ -125,9 +125,10 @@ func (d *credentialDataSource) Read(
 	).Execute()
 
 	if err != nil {
-		summary := fmt.Sprintf(
-			"Reading data %s for instance_id %q",
+		summary := utils.BuildSummary(
 			d.name,
+			"Reading data",
+			"instance_id",
 			instanceID,
 		)
 		utils.Error(ctx, &resp.Diagnostics, summary, err, response)

@@ -180,7 +180,7 @@ func (d *instancesDataSource) Read(
 	instances, httpResponse, err := getAllInstances(ctx, d.client)
 
 	if err != nil {
-		summary := fmt.Sprintf("Reading data %s", d.name)
+		summary := utils.BuildSummary(d.name, "Reading data")
 		utils.Error(ctx, &resp.Diagnostics, summary, err, httpResponse)
 		return
 	}

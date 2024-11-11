@@ -192,7 +192,7 @@ func (i *imagesDataSource) Read(
 	images, httpResponse, err := getAllImages(ctx, i.client)
 
 	if err != nil {
-		utils.Error(ctx, &response.Diagnostics, fmt.Sprintf("Reading data %s", i.name), err, httpResponse)
+		utils.Error(ctx, &response.Diagnostics, utils.BuildSummary(i.name, "Reading data"), err, httpResponse)
 		return
 	}
 

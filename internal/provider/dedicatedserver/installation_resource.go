@@ -367,9 +367,10 @@ func (i *installationResource) Create(
 		InstallOperatingSystemOpts(*opts).Execute()
 
 	if err != nil {
-		summary := fmt.Sprintf(
-			"Installaing resource %s for dedicated_server_id %q",
+		summary := utils.BuildSummary(
 			i.name,
+			"Installing resource",
+			"dedicated_server_id",
 			serverID,
 		)
 		utils.Error(ctx, &resp.Diagnostics, summary, err, response)

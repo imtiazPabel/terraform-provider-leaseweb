@@ -213,9 +213,10 @@ func (s *serverResource) Read(
 
 	sdkDedicatedServer, response, err := s.getServer(ctx, data.ID.ValueString())
 	if err != nil {
-		summary := fmt.Sprintf(
-			"Reading resource %s for id %q",
+		summary := utils.BuildSummary(
 			s.name,
+			"Reading resource",
+			"id",
 			data.ID.ValueString(),
 		)
 		utils.Error(ctx, &resp.Diagnostics, summary, err, response)
@@ -240,9 +241,10 @@ func (s *serverResource) ImportState(
 
 	sdkDedicatedServer, response, err := s.getServer(ctx, req.ID)
 	if err != nil {
-		summary := fmt.Sprintf(
-			"Importing resource %s for id %q",
+		summary := utils.BuildSummary(
 			s.name,
+			"Importing resource",
+			"id",
 			req.ID,
 		)
 		utils.Error(ctx, &resp.Diagnostics, summary, err, response)
@@ -280,9 +282,10 @@ func (s *serverResource) Update(
 			state.ID.ValueString(),
 		).UpdateServerReferenceOpts(*opts).Execute()
 		if err != nil {
-			summary := fmt.Sprintf(
-				"Updating resource %s reference for id %q",
+			summary := utils.BuildSummary(
 				s.name,
+				"Updating resource reference",
+				"id",
 				plan.ID.ValueString(),
 			)
 			utils.Error(ctx, &resp.Diagnostics, summary, err, response)
@@ -297,9 +300,10 @@ func (s *serverResource) Update(
 			request := s.client.PowerServerOn(ctx, state.ID.ValueString())
 			response, err := request.Execute()
 			if err != nil {
-				summary := fmt.Sprintf(
-					"Updating resource %s powering on for id %q",
+				summary := utils.BuildSummary(
 					s.name,
+					"Updating resource powering on",
+					"id",
 					state.ID.ValueString(),
 				)
 				utils.Error(ctx, &resp.Diagnostics, summary, err, response)
@@ -309,9 +313,10 @@ func (s *serverResource) Update(
 			request := s.client.PowerServerOff(ctx, state.ID.ValueString())
 			response, err := request.Execute()
 			if err != nil {
-				summary := fmt.Sprintf(
-					"Updating resource %s powering off for id %q",
+				summary := utils.BuildSummary(
 					s.name,
+					"Updating resource powering off",
+					"id",
 					state.ID.ValueString(),
 				)
 				utils.Error(ctx, &resp.Diagnostics, summary, err, response)
@@ -332,9 +337,10 @@ func (s *serverResource) Update(
 			state.PublicIP.ValueString(),
 		).UpdateIpProfileOpts(*opts).Execute()
 		if err != nil {
-			summary := fmt.Sprintf(
-				"Updating resource %s reverse lookup for id %q",
+			summary := utils.BuildSummary(
 				s.name,
+				"Updating resource reverse lookup",
+				"id",
 				state.ID.ValueString(),
 			)
 			utils.Error(ctx, &resp.Diagnostics, summary, err, response)
@@ -352,10 +358,12 @@ func (s *serverResource) Update(
 				state.PublicIP.ValueString(),
 			).Execute()
 			if err != nil {
-				summary := fmt.Sprintf(
-					"Updating resource %s null routing an ip for id %q and ip %q",
+				summary := utils.BuildSummary(
 					s.name,
+					"Updating resource null routing an ip",
+					"id",
 					state.ID.ValueString(),
+					"ip",
 					state.PublicIP.ValueString(),
 				)
 				utils.Error(ctx, &resp.Diagnostics, summary, err, response)
@@ -368,10 +376,12 @@ func (s *serverResource) Update(
 				state.PublicIP.ValueString(),
 			).Execute()
 			if err != nil {
-				summary := fmt.Sprintf(
-					"Updating resource %s remove null routing an ip for id %q and ip %q",
+				summary := utils.BuildSummary(
 					s.name,
+					"Updating resource remove null routing an ip",
+					"id",
 					state.ID.ValueString(),
+					"ip",
 					state.PublicIP.ValueString(),
 				)
 				utils.Error(ctx, &resp.Diagnostics, summary, err, response)
@@ -390,9 +400,10 @@ func (s *serverResource) Update(
 				state.ID.ValueString(),
 			).CreateServerDhcpReservationOpts(*opts).Execute()
 			if err != nil {
-				summary := fmt.Sprintf(
-					"Updating resource %s creating a DHCP reservation for id %q",
+				summary := utils.BuildSummary(
 					s.name,
+					"Updating resource creating DHCP reservation",
+					"id",
 					state.ID.ValueString(),
 				)
 				utils.Error(ctx, &resp.Diagnostics, summary, err, response)
@@ -404,9 +415,10 @@ func (s *serverResource) Update(
 				state.ID.ValueString(),
 			).Execute()
 			if err != nil {
-				summary := fmt.Sprintf(
-					"Updating resource %s deleting DHCP reservation for id %q",
+				summary := utils.BuildSummary(
 					s.name,
+					"Updating resource deleting DHCP reservation",
+					"id",
 					state.ID.ValueString(),
 				)
 				utils.Error(ctx, &resp.Diagnostics, summary, err, response)
@@ -425,9 +437,10 @@ func (s *serverResource) Update(
 				dedicatedServer.NETWORKTYPEURL_PUBLIC,
 			).Execute()
 			if err != nil {
-				summary := fmt.Sprintf(
-					"Updating resource %s opening public network interface for id %q",
+				summary := utils.BuildSummary(
 					s.name,
+					"Updating resource opening public network interface",
+					"id",
 					state.ID.ValueString(),
 				)
 				utils.Error(ctx, &resp.Diagnostics, summary, err, response)
@@ -440,9 +453,10 @@ func (s *serverResource) Update(
 				dedicatedServer.NETWORKTYPEURL_PUBLIC,
 			).Execute()
 			if err != nil {
-				summary := fmt.Sprintf(
-					"Updating resource %s closing public network interface for id %q",
+				summary := utils.BuildSummary(
 					s.name,
+					"Updating resource closing public network interface",
+					"id",
 					state.ID.ValueString(),
 				)
 				utils.Error(ctx, &resp.Diagnostics, summary, err, response)

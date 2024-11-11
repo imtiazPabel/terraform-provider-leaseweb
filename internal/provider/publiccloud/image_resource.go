@@ -213,7 +213,7 @@ func (i *imageResource) Create(
 	var plan imageResourceModel
 
 	diags := request.Plan.Get(ctx, &plan)
-	summary := fmt.Sprintf("Creating resource %s", i.name)
+	summary := utils.BuildSummary(i.name, "Creating resource")
 	response.Diagnostics.Append(diags...)
 	if response.Diagnostics.HasError() {
 		return
@@ -253,7 +253,7 @@ func (i *imageResource) Read(
 	var state imageResourceModel
 
 	diags := request.State.Get(ctx, &state)
-	summary := fmt.Sprintf("Reading resource %s", i.name)
+	summary := utils.BuildSummary(i.name, "Reading resource")
 	response.Diagnostics.Append(diags...)
 	if response.Diagnostics.HasError() {
 		return
@@ -301,9 +301,10 @@ func (i *imageResource) Update(
 		plan.ID.ValueString(),
 	).UpdateImageOpts(opts).Execute()
 	if err != nil {
-		summary := fmt.Sprintf(
-			"Updating resource %s for id %q",
+		summary := utils.BuildSummary(
 			i.name,
+			"Updating resource",
+			"id",
 			plan.ID.ValueString(),
 		)
 		utils.Error(ctx, &response.Diagnostics, summary, err, httpResponse)

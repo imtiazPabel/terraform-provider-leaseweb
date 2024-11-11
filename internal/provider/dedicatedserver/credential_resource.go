@@ -135,10 +135,12 @@ func (c *credentialResource) Create(
 	).CreateServerCredentialOpts(*opts)
 	result, response, err := request.Execute()
 	if err != nil {
-		summary := fmt.Sprintf(
-			"Creating resource %s for username %q and dedicated_server_id %q",
+		summary := utils.BuildSummary(
 			c.name,
+			"Creating resource",
+			"username",
 			data.Username.ValueString(),
+			"dedicated_server_id",
 			data.DedicatedServerId.ValueString(),
 		)
 		utils.Error(ctx, &resp.Diagnostics, summary, err, response)
@@ -175,10 +177,12 @@ func (c *credentialResource) Read(
 	)
 	result, response, err := request.Execute()
 	if err != nil {
-		summary := fmt.Sprintf(
-			"Reading resource %s for username %q and dedicated_server_id %q",
+		summary := utils.BuildSummary(
 			c.name,
+			"Reading resource",
+			"username",
 			data.Username.ValueString(),
+			"dedicated_server_id",
 			data.DedicatedServerId.ValueString(),
 		)
 		utils.Error(ctx, &resp.Diagnostics, summary, err, response)
@@ -218,10 +222,12 @@ func (c *credentialResource) Update(
 	).UpdateServerCredentialOpts(*opts)
 	result, response, err := request.Execute()
 	if err != nil {
-		summary := fmt.Sprintf(
-			"Updating resource %s for username %q and dedicated_server_id %q",
+		summary := utils.BuildSummary(
 			c.name,
+			"Updating resource",
+			"username",
 			data.Username.ValueString(),
+			"dedicated_server_id",
 			data.DedicatedServerId.ValueString(),
 		)
 		utils.Error(ctx, &resp.Diagnostics, summary, err, response)
@@ -258,10 +264,12 @@ func (c *credentialResource) Delete(
 	)
 	response, err := request.Execute()
 	if err != nil {
-		summary := fmt.Sprintf(
-			"Deleting resource %s for username %q and dedicated_server_id %q",
+		summary := utils.BuildSummary(
 			c.name,
+			"Deleting resource",
+			"username",
 			data.Username.ValueString(),
+			"dedicated_server_id",
 			data.DedicatedServerId.ValueString(),
 		)
 		utils.Error(ctx, &resp.Diagnostics, summary, err, response)

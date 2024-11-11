@@ -180,7 +180,7 @@ func (l *loadBalancersDataSource) Read(
 	loadBalancers, httpResponse, err := getAllLoadBalancers(ctx, l.client)
 
 	if err != nil {
-		summary := fmt.Sprintf("Reading data %s", l.name)
+		summary := utils.BuildSummary(l.name, "Reading data")
 		utils.Error(ctx, &response.Diagnostics, summary, err, httpResponse)
 		return
 	}

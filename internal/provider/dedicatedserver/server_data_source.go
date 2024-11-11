@@ -99,9 +99,10 @@ func (s *serverDataSource) Read(
 	request := s.client.GetServer(ctx, data.Id.ValueString())
 	result, response, err := request.Execute()
 	if err != nil {
-		summary := fmt.Sprintf(
-			"Reading data %s for id %q",
+		summary := utils.BuildSummary(
 			s.name,
+			"Reading data",
+			"id",
 			data.Id.ValueString(),
 		)
 		utils.Error(ctx, &resp.Diagnostics, summary, err, response)

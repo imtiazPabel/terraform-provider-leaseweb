@@ -122,3 +122,52 @@ func ExampleError() {
 	fmt.Println(diags.Errors())
 	// Output: [{{the name is invalid summary} {[name]}}]
 }
+
+func TestBuildSummary(t *testing.T) {
+	tests := []struct {
+		name      string
+		operation string
+		attr      []string
+		expected  string
+	}{
+		{
+			name:      "test_resource",
+			operation: "Creating resource",
+			attr:      []string{"username", "testuser"},
+			expected:  "Creating resource test_resource for username: \"testuser\"",
+		},
+		{
+			name:      "test_data_source",
+			operation: "Reading data",
+			attr:      []string{"unknown-key-without-value"},
+			expected:  "Reading data test_data_source",
+		},
+		{
+			name:      "test_data_source",
+			operation: "Reading data",
+			attr:      []string{}, // No attributes
+			expected:  "Reading data test_data_source",
+		},
+		{
+			name:      "test_resource",
+			operation: "Updating resource",
+			attr:      []string{"username", "newuser", "email", "newuser@example.com"},
+			expected:  "Updating resource test_resource for username: \"newuser\" email: \"newuser@example.com\"",
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got := BuildSummary(tt.name, tt.operation, tt.attr...)
+			if got != tt.expected {
+				t.Errorf("BuildSummary() = %v, want %v", got, tt.expected)
+			}
+		})
+	}
+}
+
+func ExampleBuildSummary() {
+	summary := BuildSummary("test_resource", "Updating resource", "username", "newuser", "email", "newuser@example.com")
+	fmt.Println(summary)
+	// Output: Updating resource test_resource for username: "newuser" email: "newuser@example.com"
+}

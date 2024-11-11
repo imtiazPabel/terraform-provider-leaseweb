@@ -95,7 +95,7 @@ func (c *controlPanelsDataSource) Read(
 	}
 
 	if err != nil {
-		summary := fmt.Sprintf("Reading data %s", c.name)
+		summary := utils.BuildSummary(c.name, "Reading data")
 		utils.Error(ctx, &resp.Diagnostics, summary, err, response)
 		return
 	}

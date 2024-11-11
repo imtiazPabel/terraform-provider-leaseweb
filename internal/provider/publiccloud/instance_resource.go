@@ -398,7 +398,7 @@ func (i *instanceResource) Create(
 	var plan instanceResourceModel
 
 	diags := req.Plan.Get(ctx, &plan)
-	summary := fmt.Sprintf("Launching resource %s", i.name)
+	summary := utils.BuildSummary(i.name, "Launching resource")
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -456,7 +456,12 @@ func (i *instanceResource) Delete(
 	).Execute()
 
 	if err != nil {
-		summary := fmt.Sprintf("Terminating resource %s for id %q", i.name, state.ID.ValueString())
+		summary := utils.BuildSummary(
+			i.name,
+			"Terminating resource",
+			"id",
+			state.ID.ValueString(),
+		)
 		utils.Error(ctx, &resp.Diagnostics, summary, err, httpResponse)
 		return
 	}
@@ -491,9 +496,10 @@ func (i *instanceResource) Read(
 	var state instanceResourceModel
 
 	diags := req.State.Get(ctx, &state)
-	summary := fmt.Sprintf(
-		"Reading resource %s for id %q",
+	summary := utils.BuildSummary(
 		i.name,
+		"Reading resource",
+		"id",
 		state.ID.ValueString(),
 	)
 	resp.Diagnostics.Append(diags...)
@@ -542,9 +548,10 @@ func (i *instanceResource) Update(
 	var plan instanceResourceModel
 
 	diags := req.Plan.Get(ctx, &plan)
-	summary := fmt.Sprintf(
-		"Updating resource %s for id %q",
+	summary := utils.BuildSummary(
 		i.name,
+		"Updating resource",
+		"id",
 		plan.ID.ValueString(),
 	)
 

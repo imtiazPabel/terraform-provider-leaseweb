@@ -284,7 +284,7 @@ func (l *loadBalancerResource) Create(
 	var plan loadBalancerResourceModel
 
 	diags := request.Plan.Get(ctx, &plan)
-	summary := fmt.Sprintf("Launching resource %s", l.name)
+	summary := utils.BuildSummary(l.name, "Launching resource")
 	response.Diagnostics.Append(diags...)
 	if response.Diagnostics.HasError() {
 		return
@@ -327,9 +327,10 @@ func (l *loadBalancerResource) Read(
 ) {
 	var state loadBalancerResourceModel
 	diags := request.State.Get(ctx, &state)
-	summary := fmt.Sprintf(
-		"Reading resource %s for id %q",
+	summary := utils.BuildSummary(
 		l.name,
+		"Reading resource",
+		"id",
 		state.ID.ValueString(),
 	)
 	response.Diagnostics.Append(diags...)
@@ -363,9 +364,10 @@ func (l *loadBalancerResource) Update(
 	var plan loadBalancerResourceModel
 
 	diags := request.Plan.Get(ctx, &plan)
-	summary := fmt.Sprintf(
-		"Updating resource %s for id %q",
+	summary := utils.BuildSummary(
 		l.name,
+		"Updating resource",
+		"id",
 		plan.ID.ValueString(),
 	)
 
@@ -407,7 +409,12 @@ func (l *loadBalancerResource) Delete(
 
 	httpResponse, err := l.client.TerminateLoadBalancer(ctx, state.ID.ValueString()).Execute()
 	if err != nil {
-		summary := fmt.Sprintf("Terminating resource %s for id %q", l.name, state.ID.ValueString())
+		summary := utils.BuildSummary(
+			l.name,
+			"Terminating resource",
+			"id",
+			state.ID.ValueString(),
+		)
 		utils.Error(ctx, &response.Diagnostics, summary, err, httpResponse)
 		return
 	}

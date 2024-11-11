@@ -140,9 +140,10 @@ func (n *notificationSettingDatatrafficResource) Create(
 	).DataTrafficNotificationSettingOpts(*opts)
 	result, response, err := request.Execute()
 	if err != nil {
-		summary := fmt.Sprintf(
-			"Creating resource %s for dedicated_server_id %q",
+		summary := utils.BuildSummary(
 			n.name,
+			"Creating resource",
+			"dedicated_server_id",
 			data.DedicatedServerId.ValueString(),
 		)
 		utils.Error(ctx, &resp.Diagnostics, summary, err, response)
@@ -182,10 +183,12 @@ func (n *notificationSettingDatatrafficResource) Read(
 	)
 	result, response, err := request.Execute()
 	if err != nil {
-		summary := fmt.Sprintf(
-			"Reading resource %s for id %q and dedicated_server_id %q",
+		summary := utils.BuildSummary(
 			n.name,
+			"Reading resource",
+			"id",
 			data.Id.ValueString(),
+			"dedicated_server_id",
 			data.DedicatedServerId.ValueString(),
 		)
 		utils.Error(ctx, &resp.Diagnostics, summary, err, response)
@@ -230,10 +233,12 @@ func (n *notificationSettingDatatrafficResource) Update(
 	).DataTrafficNotificationSettingOpts(*opts)
 	result, response, err := request.Execute()
 	if err != nil {
-		summary := fmt.Sprintf(
-			"Updating resource %s for id %q and dedicated_server_id %q",
+		summary := utils.BuildSummary(
 			n.name,
+			"Updating resource",
+			"id",
 			data.Id.ValueString(),
+			"dedicated_server_id",
 			data.DedicatedServerId.ValueString(),
 		)
 		utils.Error(ctx, &resp.Diagnostics, summary, err, response)
@@ -273,10 +278,12 @@ func (n *notificationSettingDatatrafficResource) Delete(
 	)
 	response, err := request.Execute()
 	if err != nil {
-		summary := fmt.Sprintf(
-			"Deleting resource %s for id %q and dedicated_server_id %q",
+		summary := utils.BuildSummary(
 			n.name,
+			"Deleting resource",
+			"id",
 			data.Id.ValueString(),
+			"dedicated_server_id",
 			data.DedicatedServerId.ValueString(),
 		)
 		utils.Error(ctx, &resp.Diagnostics, summary, err, response)

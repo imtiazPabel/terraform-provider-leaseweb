@@ -155,3 +155,19 @@ func (e *errorHandler) writeLog(details string) {
 func (e *errorHandler) writeOutput(details string) {
 	e.diags.AddError(e.summary, details)
 }
+
+func BuildSummary(name string, operation string, attr ...string) string {
+	summary := fmt.Sprintf("%s %s", operation, name)
+
+	// Append key-value pairs to the summary string
+	if len(attr) > 1 {
+		summary += " for" // Append "for" before adding key-value pairs
+		for i := 0; i < len(attr)-1; i += 2 {
+			key := attr[i]
+			value := attr[i+1]
+			summary += fmt.Sprintf(" %s: %q", key, value)
+		}
+	}
+
+	return summary
+}
